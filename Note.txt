@@ -1,0 +1,8 @@
+1. Install Postgresql
+2. Install Rabbitmq
+3. Change assetting.json to fit your configuration
+
+
+in order to add migration:
+1. Target to Appointment.Infrastructure
+2. run: dotnet ef migrations add initialCreate --startup-project ../Appointment.API
