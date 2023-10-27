@@ -14,7 +14,6 @@ namespace Appointment.Application.Extensions
             services.AddScoped<IAppointmentService, AppointmentService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
         }
     }
 }
