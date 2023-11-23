@@ -7,5 +7,6 @@ namespace Appointment.Application.Services
         IQueryable<AppointmentDto> GetAll();
         Task<AppointmentDto?> GetByIdAsync(int id);
         Task<int> AddAppointment(AddAppointmentDto model);
+        Task TestConcurrency();
     }
 }

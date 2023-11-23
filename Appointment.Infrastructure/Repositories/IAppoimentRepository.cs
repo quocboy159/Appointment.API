@@ -2,5 +2,6 @@
 {
     public interface IAppoimentRepository : IGenericRepository<Data.Entities.Appointment>
     {
+        Task TestConcurrency();
     }
 }

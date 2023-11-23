@@ -46,5 +46,10 @@ namespace Appointment.Application.Services
 
             return _mapper.Map<AppointmentDto>(data);
         }
+
+        public async Task TestConcurrency()
+        {
+            await _appoimentRepository.TestConcurrency();
+        }
     }
 }

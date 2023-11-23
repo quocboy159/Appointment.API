@@ -46,5 +46,13 @@ namespace Appointment.API.Controllers
 
             return Ok(await _appointmentService.AddAppointment(model));
         }
+
+        [ODataIgnored]
+        [HttpPut("api/appointments")]
+        public async Task<IActionResult> UpdateAppointment()
+        {
+            await _appointmentService.TestConcurrency();
+            return Ok();
+        }
     }
 }
