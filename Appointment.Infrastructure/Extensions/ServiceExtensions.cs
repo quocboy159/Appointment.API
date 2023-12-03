@@ -20,10 +20,10 @@ namespace Appointment.Infrastructure.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
             services.AddScoped<IAppoimentRepository, AppoimentRepository>();
 
-            AddMasstrasit(services, configuration);
+            AddMasstransit(services, configuration);
         }
 
-        private static void AddMasstrasit(IServiceCollection services, IConfiguration configuration)
+        private static void AddMasstransit(IServiceCollection services, IConfiguration configuration)
         {
             var uri = configuration.GetSection(nameof(RabbitMqSettings))[nameof(RabbitMqSettings.Uri)];
             var userName = configuration.GetSection(nameof(RabbitMqSettings))[nameof(RabbitMqSettings.UserName)];
