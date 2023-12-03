@@ -1,5 +1,8 @@
-﻿namespace Contracts
+﻿using MassTransit;
+
+namespace Contracts
 {
+    [ExcludeFromTopology]
     public class AppointmentCreated
     {
         public int Id { get; set; }

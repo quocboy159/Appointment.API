@@ -23,18 +23,15 @@ namespace PublisherTest.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public async Task<IEnumerable<WeatherForecast>> Get()
+        public async Task<IActionResult> Get()
         {
-            Uri uri = new Uri("rabbitmq://localhost/appointment-created");
+            Uri uri = new Uri("exchange:cw.appointment.fanout.exchange");
             var endPoint = await _bus.GetSendEndpoint(uri);
-            await endPoint.Send(new AppointmentCreated { Id = 1, Name = "quoc" });
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            await endPoint.Send(new AppointmentCreated { Id = 1, Name = "quoc" }, x =>
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                x.Headers.Set("operation", "appointment.update");
+            });
+           return Ok();
         }
     }
 }
