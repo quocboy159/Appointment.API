@@ -2,8 +2,8 @@
 
 namespace Contracts
 {
-    [EntityName("appointment-created")]
-
+    //[ExcludeFromTopology]
+    //[EntityName("cw.appointment.update.queue")]
     public class AppointmentCreated
     {
         public int Id { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Appointment.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Linq.Expressions;
 
 namespace Appointment.Infrastructure.Repositories

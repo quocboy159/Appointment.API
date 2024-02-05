@@ -25,9 +25,14 @@ namespace PublisherTest.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IActionResult> Get()
         {
-            Uri uri = new Uri("exchange:cw.appointment.fanout.exchange");
+            Uri uri = new Uri("exchange:appointment-created");
             var endPoint = await _bus.GetSendEndpoint(uri);
-            await endPoint.Send(new AppointmentCreated { Id = 1, Name = "quoc" }, x =>
+            var appointments = new List<AppointmentCreated>();
+            for(int i = 0; i < 100; i++)
+            {
+                appointments.Add(new AppointmentCreated { Id = i + 1, Name = $"quoc {i + 1}" });
+            }
+            await endPoint.SendBatch(appointments, x =>
             {
                 x.Headers.Set("operation", "appointment.update");
             });

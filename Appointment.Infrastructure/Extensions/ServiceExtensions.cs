@@ -3,10 +3,12 @@ using Appointment.Infrastructure.Entities;
 using Appointment.Infrastructure.Repositories;
 using Appointment.Infrastructure.Settings;
 using Appointment.Infrastructure.UnitOfWork;
+using Contracts;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static MassTransit.MessageHeaders;
 
 namespace Appointment.Infrastructure.Extensions
 {
@@ -28,11 +30,11 @@ namespace Appointment.Infrastructure.Extensions
             var uri = configuration.GetSection(nameof(RabbitMqSettings))[nameof(RabbitMqSettings.Uri)];
             var userName = configuration.GetSection(nameof(RabbitMqSettings))[nameof(RabbitMqSettings.UserName)];
             var password = configuration.GetSection(nameof(RabbitMqSettings))[nameof(RabbitMqSettings.Password)];
+
             services.AddMassTransit(mt =>
             {
-                mt.SetKebabCaseEndpointNameFormatter();
-
-                mt.AddConsumer<AppointmentConsumer>();
+                mt.AddConsumer<AppointmentConsumer>()
+                .ExcludeFromConfigureEndpoints();
 
                 mt.UsingRabbitMq((context, config) =>
                 {
@@ -46,7 +48,12 @@ namespace Appointment.Infrastructure.Extensions
 
                     config.ReceiveEndpoint("appointment-created", (c) =>
                     {
+                        //c.ConfigureConsumeTopology = false;
+                        //c.AutoDelete = true;
+                        //c.Durable = false;
+                        c.UseRawJsonDeserializer(RawSerializerOptions.Default, true);
                         c.ConfigureConsumer<AppointmentConsumer>(context);
+                        //c.Bind<AppointmentCreated>();
                     });
                 });
 
